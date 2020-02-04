@@ -1,0 +1,46 @@
+html(lang='de')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title 기사 – Kisa
+
+    //- Favicons: https://favicon.io/favicon-generator/
+    link(rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png')
+    link(rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png')
+
+    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
+
+    link(rel='stylesheet' href='styles.css')
+    script(src='rss.global.min.js')
+
+  body
+    .container.my-3
+      h1 기사
+
+      h2 International
+      .row
+          #International
+      h2 National
+      .row
+          #National
+      h2 Berlin
+      .row
+          #Berlin
+
+      footer.small.text-muted
+        span#blacklist
+        |  wurden als Quellen ausgeschlossen.
+    
+    template#layout-template
+      ul.list-unstyled {entries}
+  
+    template#entry-template
+      li.media.my-2
+        .media-body
+          span.lead.lead-line.small.text-monospace {lead}
+          h5.mt-0.mb-1
+            a(href='{url}' title='{title}').text-reset {schlagzeile}
+          p.text-muted {quelle}
+
+    script(src='main.js')
+        
