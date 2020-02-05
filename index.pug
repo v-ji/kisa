@@ -2,11 +2,13 @@ html(lang='de')
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title 기사 – Kisa
+    title 기사 | Kisa News
 
     //- Favicons: https://favicon.io/favicon-generator/
-    link(rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png')
-    link(rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png')
+    link(rel='apple-touch-icon' sizes='180x180' href='icons/apple-touch-icon.png')
+    link(rel='icon' type='image/png' sizes='32x32' href='icons/favicon-32x32.png')
+    link(rel='icon' type='image/png' sizes='16x16' href='icons/favicon-16x16.png')
+    link(rel='icon' href='icons/favicon.ico')
 
     link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous')
 
@@ -15,10 +17,11 @@ html(lang='de')
 
   body
     nav.navbar.navbar-expand
-      h1.navbar-brand.mb-0 기사
-      .collapse.navbar-collapse
-        .navbar-text
-          span.small.text-uppercase Kisa News 
+      .container
+        h1.navbar-brand.mb-0 기사
+        .collapse.navbar-collapse
+          .navbar-text
+            span.small.text-uppercase Kisa News 
 
     .container.my-3
       h3 International
@@ -27,22 +30,25 @@ html(lang='de')
       #National
       h3 Berlin
       #Berlin
-
-      footer.small.text-muted
-        span#blacklist
-        |  wurden als Quellen ausgeschlossen.
     
-    template#layout-template
-      .row.ml-4
-        ul.list-unstyled {entries}
-  
-    template#entry-template
-      li.media.my-2
-        .media-body
-          span.lead.small.text-uppercase.font-weight-light.futura {lead}
-          a(href='{url}' title='{title}').text-reset
-            h5.headline.mt-0.mb-1 {schlagzeile}
-          p.text-muted {quelle}
+      template#layout-template
+        .row.ml-4.mr-1
+          ul.list-unstyled {entries}
+    
+      template#entry-template
+        li.media.my-2
+          .media-body
+            span.lead.small.text-uppercase.font-weight-light.futura {lead}
+            a(href='{url}' title='{title}').text-reset
+              h5.headline.mt-0.mb-1 {schlagzeile}
+            p.text-muted {quelle}
+
+      footer.small.text-muted.mb-5
+        p
+          span#blacklist
+          |  wurden als Quellen ausgeschlossen.
+          br
+          a(href='/impressum').text-reset Impressum.
 
     script(src='main.js')
         
