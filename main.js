@@ -68,6 +68,15 @@ for (const [edition, url] of Object.entries(feedURLs)) {
       filter: function (entry, tokens) {
         return !blacklist.some(el => tokens.quelle(entry, tokens).includes(el))
       }
-    }
-  ).render()
+    })
+    .render()
+    .then(
+      () => {},
+      (err) => {
+        if (err) {
+          console.error(err)
+          document.querySelector('#' + edition).innerHTML = '<p>Feed konnte nicht geladen werden. Bitte prüfe deine Netzwerkverbindung.</p>'
+        }
+      }
+    )
 }
