@@ -8,38 +8,40 @@ html(lang='de')
     link(rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png')
     link(rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png')
 
-    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
+    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous')
 
     link(rel='stylesheet' href='styles.css')
     script(src='rss.global.min.js')
 
   body
-    .container.my-3
-      h1 기사
+    nav.navbar.navbar-expand
+      h1.navbar-brand.mb-0 기사
+      .collapse.navbar-collapse
+        .navbar-text
+          span.small.text-uppercase Kisa News 
 
-      h2 International
-      .row
-          #International
-      h2 National
-      .row
-          #National
-      h2 Berlin
-      .row
-          #Berlin
+    .container.my-3
+      h3 International
+      #International
+      h3 National
+      #National
+      h3 Berlin
+      #Berlin
 
       footer.small.text-muted
         span#blacklist
         |  wurden als Quellen ausgeschlossen.
     
     template#layout-template
-      ul.list-unstyled {entries}
+      .row.ml-4
+        ul.list-unstyled {entries}
   
     template#entry-template
       li.media.my-2
         .media-body
-          span.lead.lead-line.small.text-monospace {lead}
-          h5.mt-0.mb-1
-            a(href='{url}' title='{title}').text-reset {schlagzeile}
+          span.lead.small.text-uppercase.font-weight-light.futura {lead}
+          a(href='{url}' title='{title}').text-reset
+            h5.headline.mt-0.mb-1 {schlagzeile}
           p.text-muted {quelle}
 
     script(src='main.js')
