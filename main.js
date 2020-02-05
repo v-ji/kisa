@@ -13,7 +13,7 @@ document.querySelector('#blacklist').textContent = blacklist.slice(0, -1).join('
 const tokenFunctions = {}
 tokenFunctions.typoString = function (entry, tokens, lc = lang) {
   return entry.title
-    .replace(/ - FAZ( - Frankfurter Allgemeine Zeitung)/, '$1') // FAZ
+    .replace(/ - F\.?A\.?Z\.?( - Frankfurter Allgemeine Zeitung)/, '$1') // FAZ
     .replace(/"([^"]*)"/g, '„$1“') // Doppelte Anführungszeichen
     .replace(/(\w)'(\w)/g, '$1’$2') // Apostroph
     .replace(/'([^']*)'/g, '‚$1‘') // Einzelne Anführungszeichen
