@@ -25,7 +25,6 @@ tokenFunctions.quelle = function (entry, tokens) {
 }
 tokenFunctions.lead = function (entry, tokens) {
   const typoString = tokens.typoString(entry, tokens)
-  console.log(typoString)
   if (typoString.includes(':') && typoString.indexOf(':') < typoString.indexOf(' – ')) {
     // Doppelpunkt zeigt Lead an
     if (typoString.includes(': ')) {
@@ -50,7 +49,7 @@ tokenFunctions.schlagzeile = function (entry, tokens) {
       typoString.indexOf(lead) + lead.length,
       typoString.lastIndexOf(quelle) - 2
     )
-    .replace(/^ ?[:\–'"]* ?/, '') // Doppelpunkt, Bindestrich, Anführungszeichen Leerzeichen am Anfang entfernen
+    .replace(/^ ?[:–'"]* ?/, '') // Doppelpunkt, Bindestrich, Anführungszeichen Leerzeichen am Anfang entfernen
     .replace(/ \| \w.*/, '') // Kategorien hinter senkrechtem Strich entfernen
 }
 
@@ -71,5 +70,4 @@ for (const [edition, url] of Object.entries(feedURLs)) {
       }
     }
   ).render()
-  console.log('Rendered', url)
 }
