@@ -1,82 +1,66 @@
-const lang = 'de'
-
-const feedURLs = {
-  International: 'https://news.google.com/news/rss/headlines/section/topic/WORLD?hl=' + lang,
-  National: 'https://news.google.com/news/rss/headlines/section/topic/NATION?hl=' + lang,
-  Berlin: 'https://news.google.com/news/rss/headlines/section/geo/Berlin?hl=' + lang
+const kisaSettings = {
+  userLanguage: navigator.language || navigator.userLanguage,
+  get lang () {
+    return this.userLanguage.slice(0, 2).toLowerCase() || 'de'
+  },
+  get country () {
+    return this.geoIP.country.slice(0, 2).toUpperCase() || 'de'
+  }
 }
 
-const blacklist = ['BILD', 'B.Z.', 'STERN']
+window.fetch('https://get.geojs.io/v1/ip/country.json')
+  .then((res) => res.json())
+  .then((data) => {
+    kisaSettings.geoIP = data
+  })
+  .then(render())
+
+document.querySelector('#lang').addEventListener('change', render)
+document.querySelector('#country').addEventListener('change', render)
+
+const blacklist = ['BILD', 'B.Z.', 'STERN', 'merkur']
 
 document.querySelector('#blacklist').textContent = blacklist.slice(0, -1).join(', ') + ' und ' + blacklist.slice(-1)
 
-const tokenFunctions = {}
-tokenFunctions.typoString = function (entry, tokens, lc = lang) {
-  return entry.title
-    .replace(/ - F\.?A\.?Z\.?( - Frankfurter Allgemeine Zeitung)/, '$1') // FAZ
-    .replace(/"([^"]*)"/g, '„$1“') // Doppelte Anführungszeichen
-    .replace(/(\w)'(\w)/g, '$1’$2') // Apostroph
-    .replace(/'([^']*)'/g, '‚$1‘') // Einzelne Anführungszeichen
-    .replace(/ - /g, ' – ') // Gedankenstrich
-}
-tokenFunctions.quelle = function (entry, tokens) {
-  const typoString = tokens.typoString(entry, tokens)
-  return typoString.split(' – ')[typoString.split(' – ').length - 1]
-}
-tokenFunctions.lead = function (entry, tokens) {
-  const typoString = tokens.typoString(entry, tokens)
-  if (typoString.includes(':') && typoString.indexOf(':') < typoString.indexOf(' – ')) {
-    // Doppelpunkt zeigt Lead an
-    if (typoString.includes(': ')) {
-      return typoString.split(': ')[0]
-    } else if (typoString.includes(':')) {
-      return typoString.split(':')[0]
-    }
-  } else if ((typoString.match(/ – /g) || []).length > 1) {
-    // Gedankenstrich zeigt Lead an
-    return typoString.substring(0, typoString.indexOf(' – '))
-  } else {
-    // Kein Lead
-    return ''
+function render () {
+  const feedURLs = {
+    International: 'https://news.google.com/news/rss/headlines/section/topic/WORLD?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country,
+    National: 'https://news.google.com/news/rss/headlines/section/topic/NATION?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country,
+    Berlin: 'https://news.google.com/news/rss/headlines/section/geo/Berlin?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country
   }
-}
-tokenFunctions.schlagzeile = function (entry, tokens) {
-  const typoString = tokens.typoString(entry, tokens)
-  const lead = tokens.lead(entry, tokens)
-  const quelle = tokens.quelle(entry, tokens)
-  return typoString
-    .substring(
-      typoString.indexOf(lead) + lead.length,
-      typoString.lastIndexOf(quelle) - 2
-    )
-    .replace(/^ ?[:–'"]* ?/, '') // Doppelpunkt, Bindestrich, Anführungszeichen Leerzeichen am Anfang entfernen
-    .replace(/ \| \w.*/, '') // Kategorien hinter senkrechtem Strich entfernen
-}
 
-for (const [edition, url] of Object.entries(feedURLs)) {
-  new window.RSS(
-    document.querySelector('#' + edition),
-    url,
-    {
-      support: false,
-      entryTemplate: document.querySelector('#entry-template').innerHTML,
-      layoutTemplate: document.querySelector('#layout-template').innerHTML,
-      tokens: tokenFunctions,
-      // Get more entries to then filter
-      limit: 10,
-      filterLimit: 4,
-      filter: function (entry, tokens) {
-        return !blacklist.some(el => tokens.quelle(entry, tokens).includes(el))
-      }
-    })
-    .render()
-    .then(
-      () => {},
-      (err) => {
-        if (err) {
-          console.error(err)
-          document.querySelector('#' + edition).innerHTML = '<p>Feed konnte nicht geladen werden. Bitte prüfe deine Netzwerkverbindung.</p>'
+  const tokenFunctions = {
+    lead: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).lead,
+    headline: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).headline,
+    source: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).source
+  }
+
+  for (const [edition, url] of Object.entries(feedURLs)) {
+    document.querySelector('#' + edition).innerHTML = ''
+    new window.RSS(
+      document.querySelector('#' + edition),
+      url,
+      {
+        support: false,
+        entryTemplate: document.querySelector('#entry-template').innerHTML,
+        layoutTemplate: document.querySelector('#layout-template').innerHTML,
+        tokens: tokenFunctions,
+        // Get more entries to then filter
+        limit: 10,
+        filterLimit: 4,
+        filter: function (entry, tokens) {
+          return !blacklist.some(el => tokens.source(entry, tokens).includes(el))
         }
-      }
-    )
+      })
+      .render()
+      .then(
+        () => {},
+        (err) => {
+          if (err) {
+            console.error(err)
+            document.querySelector('#' + edition).innerHTML = '<p>Feed konnte nicht geladen werden. Bitte prüfe deine Netzwerkverbindung.</p>'
+          }
+        }
+      )
+  }
 }

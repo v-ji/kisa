@@ -19,9 +19,24 @@ html(lang='de')
     nav.navbar.navbar-expand
       .container
         h1.navbar-brand.mb-0 기사
-        .collapse.navbar-collapse
+        .collapse.navbar-collapse.justify-content-between
           .navbar-text
             span.small.text-uppercase Kisa News 
+          .settings(hidden)
+            .navbar-text
+              select.custom-select.custom-select-sm#lang
+                option(value='de') de
+                option(value='en') en
+                option(value='fr') fr
+                option(value='it') it
+                option(value='es') es
+            .navbar-text
+              select.custom-select.custom-select-sm#country
+                option(value='DE') DE
+                option(value='UK') UK
+                option(value='FR') FR
+                option(value='IT') IT
+                option(value='ES') ES
 
     .container.my-3
       h3 International
@@ -40,8 +55,8 @@ html(lang='de')
           .media-body
             span.lead.small.text-uppercase.font-weight-light.futura {lead}
             a(href='{url}' title='{title}').text-reset
-              h5.headline.mt-0.mb-1 {schlagzeile}
-            p.text-muted {quelle}
+              h5.headline.mt-0.mb-1 {headline}
+            p.text-muted {source}
 
       footer.small.text-muted.mb-5
         p
@@ -50,5 +65,6 @@ html(lang='de')
           br
           a(href='/impressum').text-reset Impressum.
 
+    script(src='headliner.js')
     script(src='main.js')
         
