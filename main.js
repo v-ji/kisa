@@ -4,7 +4,7 @@ const kisaSettings = {
     return this.userLanguage.slice(0, 2).toLowerCase() || 'de'
   },
   get country () {
-    return this.geoIP.country.slice(0, 2).toUpperCase() || 'de'
+    return 'geoIP' in this ? this.geoIP.country : null || this.userLanguage.slice(3).toUpperCase() || 'DE'
   }
 }
 
