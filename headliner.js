@@ -33,12 +33,12 @@ function headliner (string, langCode) {
     // Uhrzeit extrahieren
     components.interim.timeReplaced = components.interim.sourceRemoved.replace(/(\d{2}):(\d{2})/g, '$1{TIME_COLON}$2')
     components.interim.leadHeadlineSplit = components.interim.timeReplaced
-      .split(/(: | – )/)
+      .split(/(: ?| – )/)
       .map(x => x.replace('{TIME_COLON}', ':'))
 
     if (components.interim.leadHeadlineSplit.length >= 3) {
-      components.lead = components.interim.leadHeadlineSplit.slice(0, 1)
-      components.headline = components.interim.leadHeadlineSplit.slice(2)
+      components.lead = components.interim.leadHeadlineSplit.slice(0, 1).join('')
+      components.headline = components.interim.leadHeadlineSplit.slice(2).join('')
     } else {
       components.lead = ''
       components.headline = components.interim.sourceRemoved
