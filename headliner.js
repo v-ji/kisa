@@ -8,6 +8,7 @@ function headliner (string, langCode) {
   let typo // Typografischer Titel
   typo = string
     .replace(/ - F\.?A\.?Z\.?( - Frankfurter Allgemeine Zeitung)/, '$1') // FAZ
+    .replace(/\+\++ ?/g, ' ') // +++ Ticker +++
     .replace(/(\w)'(\w)/g, '$1’$2') // Apostroph
     .replace(/ - /g, ' – ') // Gedankenstrich
 
@@ -21,11 +22,10 @@ function headliner (string, langCode) {
       .replace(/'([^']*)'/g, '‘$1’') // Einzelne Anführungszeichen
   }
 
-  [this.typoWithoutSource, , components.source] = typo.split(/( – )(?!.*\1)/) // Matcht letzten Gedankenstrich im String
-
+  ;[this.typoWithoutSource, , components.source] = typo.split(/( – )(?!.*\1)/) // Matcht letzten Gedankenstrich im String
   if (this.typoWithoutSource.includes(':') || this.typoWithoutSource.includes(' – ')) {
     // Erster Doppelpunkt oder Gedankenstrich zeigt Lead an
-    [components.lead, , components.headline] = this.typoWithoutSource.split(/(: ?| – )/)
+    ;[components.lead, , components.headline] = this.typoWithoutSource.split(/(:[^\d] ?| – )/)
   } else {
     // Kein Lead
     components.lead = ''
