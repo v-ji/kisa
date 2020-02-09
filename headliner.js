@@ -20,12 +20,16 @@ function headliner (string, langCode) {
     typo = typo
       .replace(/"([^"]*)"/g, '“$1”') // Doppelte Anführungszeichen
       .replace(/'([^']*)'/g, '‘$1’') // Einzelne Anführungszeichen
+  } else if (langCode === 'fr') {
+    typo = typo
+      .replace(/"([^"]*)"/g, '«$1»') // Doppelte Anführungszeichen
+      .replace(/'([^']*)'/g, '‹$1›') // Einzelne Anführungszeichen
   }
 
   ;[this.typoWithoutSource, , components.source] = typo.split(/( – )(?!.*\1)/) // Matcht letzten Gedankenstrich im String
   if (this.typoWithoutSource.includes(':') || this.typoWithoutSource.includes(' – ')) {
     // Erster Doppelpunkt oder Gedankenstrich zeigt Lead an
-    ;[components.lead, , components.headline] = this.typoWithoutSource.split(/(:[^\d] ?| – )/)
+    ;[components.lead, , components.headline] = this.typoWithoutSource.split(/(: | – )/)
   } else {
     // Kein Lead
     components.lead = ''
