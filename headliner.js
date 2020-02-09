@@ -36,8 +36,9 @@ function headliner (string, langCode) {
       .split(/(: | – )/)
       .map(x => x.replace('{TIME_COLON}', ':'))
 
-    if (components.interim.leadHeadlineSplit.length === 3) {
-      ;[components.lead, , components.headline] = components.interim.leadHeadlineSplit
+    if (components.interim.leadHeadlineSplit.length >= 3) {
+      components.lead = components.interim.leadHeadlineSplit.slice(0, 1)
+      components.headline = components.interim.leadHeadlineSplit.slice(2)
     } else {
       components.lead = ''
       components.headline = components.interim.sourceRemoved
