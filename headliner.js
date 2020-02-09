@@ -1,5 +1,6 @@
 function headliner (string, langCode) {
   const components = {
+    interim: {},
     lead: '',
     headline: '',
     source: ''
@@ -26,14 +27,25 @@ function headliner (string, langCode) {
       .replace(/'([^']*)'/g, '‹$1›') // Einzelne Anführungszeichen
   }
 
-  ;[this.typoWithoutSource, , components.source] = typo.split(/( – )(?!.*\1)/) // Matcht letzten Gedankenstrich im String
-  if (this.typoWithoutSource.includes(': ') || this.typoWithoutSource.includes(' – ')) {
+  ;[components.interim.sourceRemoved, , components.source] = typo.split(/( – )(?!.*\1)/) // Matcht letzten Gedankenstrich im String
+  if (components.interim.sourceRemoved.includes(':') || components.interim.sourceRemoved.includes(' – ')) {
     // Erster Doppelpunkt oder Gedankenstrich zeigt Lead an
-    ;[components.lead, , components.headline] = this.typoWithoutSource.split(/(: | – )/)
+    // Uhrzeit extrahieren
+    components.interim.timeReplaced = components.interim.sourceRemoved.replace(/(\d{2}):(\d{2})/g, '$1{TIME_COLON}$2')
+    components.interim.leadHeadlineSplit = components.interim.timeReplaced
+      .split(/(: | – )/)
+      .map(x => x.replace('{TIME_COLON}', ':'))
+
+    if (components.interim.leadHeadlineSplit.length === 3) {
+      ;[components.lead, , components.headline] = components.interim.leadHeadlineSplit
+    } else {
+      components.lead = ''
+      components.headline = components.interim.sourceRemoved
+    }
   } else {
     // Kein Lead
     components.lead = ''
-    components.headline = this.typoWithoutSource
+    components.headline = components.interim.sourceRemoved
   }
 
   components.headline = components.headline
