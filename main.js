@@ -1,19 +1,23 @@
 const kisaSettings = {
-  userLanguage: navigator.language || navigator.userLanguage,
-  get lang () {
-    return this.userLanguage.slice(0, 2).toLowerCase() || 'de'
+  lang: navigator.language.slice(0, 2).toLowerCase() || 'de',
+  country: navigator.language.slice(3).toUpperCase() || 'DE',
+  city: 'Berlin',
+  set geo (data) {
+    this.geoData = data
+    this.country = data.country_code
+    this.city = data.city
   },
-  get country () {
-    return 'geoIP' in this ? this.geoIP.country : null || this.userLanguage.slice(3).toUpperCase() || 'DE'
+  get geo () {
+    return this.geoData
   }
 }
 
-window.fetch('https://get.geojs.io/v1/ip/country.json')
+window.fetch('https://get.geojs.io/v1/ip/geo.json')
   .then((res) => res.json())
   .then((data) => {
-    kisaSettings.geoIP = data
+    kisaSettings.geo = data
+    render()
   })
-  .then(render())
 
 document.querySelector('#lang').addEventListener('change', render)
 document.querySelector('#country').addEventListener('change', render)
@@ -24,21 +28,29 @@ document.querySelector('#blacklist').textContent = blacklist.slice(0, -1).join('
 
 function render () {
   const feedURLs = {
-    International: 'https://news.google.com/news/rss/headlines/section/topic/WORLD?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country,
-    National: 'https://news.google.com/news/rss/headlines/section/topic/NATION?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country,
-    Berlin: 'https://news.google.com/news/rss/headlines/section/geo/Berlin?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country
+    international: 'https://news.google.com/news/rss/headlines/section/topic/WORLD?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country,
+    national: 'https://news.google.com/news/rss/headlines/section/topic/NATION?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country,
+    local: 'https://news.google.com/news/rss/headlines/section/geo/' + encodeURIComponent(kisaSettings.city) + '?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country
   }
 
   const tokenFunctions = {
     lead: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).lead,
     headline: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).headline,
-    source: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).source
+    source: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).source,
+    escapedTitle: (entry, tokens) => entry.title.replace(/"/g, '&quot;').replace(/'/g, '&#039;')
   }
 
   for (const [edition, url] of Object.entries(feedURLs)) {
-    document.querySelector('#' + edition).innerHTML = ''
+    const editionHeaderElement = document.querySelector('h3.' + edition)
+    const editionContentElement = document.querySelector('div.' + edition)
+    editionContentElement.innerHTML = ''
+
+    if (edition === 'local') {
+      editionHeaderElement.title = kisaSettings.city
+    }
+
     new window.RSS(
-      document.querySelector('#' + edition),
+      editionContentElement,
       url,
       {
         support: false,

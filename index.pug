@@ -2,7 +2,7 @@ html(lang='de')
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    title 기사 – Kisa News
+    title Kisa News
 
     //- Favicons: https://favicon.io/favicon-generator/
     link(rel='apple-touch-icon' sizes='180x180' href='icons/apple-touch-icon.png')
@@ -39,12 +39,12 @@ html(lang='de')
                 option(value='ES') ES
 
     .container.my-3
-      h3 International
-      #International
-      h3 National
-      #National
-      h3 Berlin
-      #Berlin
+      h3.international International
+      .international
+      h3.national National
+      .national
+      h3.local Lokal
+      .local
     
       template#layout-template
         .row.ml-4.mr-1
@@ -54,7 +54,7 @@ html(lang='de')
         li.media.my-2
           .media-body
             span.lead.small.text-uppercase.font-weight-light.futura {lead}
-            a(href='{url}' title='{title}').text-reset
+            a(href='{url}' title='{escapedTitle}').text-reset
               h5.headline.mt-0.mb-1 {headline}
             p.text-muted {source}
 
