@@ -27,7 +27,7 @@ function headliner (string, langCode) {
   }
 
   ;[this.typoWithoutSource, , components.source] = typo.split(/( – )(?!.*\1)/) // Matcht letzten Gedankenstrich im String
-  if (this.typoWithoutSource.includes(':') || this.typoWithoutSource.includes(' – ')) {
+  if (this.typoWithoutSource.includes(': ') || this.typoWithoutSource.includes(' – ')) {
     // Erster Doppelpunkt oder Gedankenstrich zeigt Lead an
     ;[components.lead, , components.headline] = this.typoWithoutSource.split(/(: | – )/)
   } else {
