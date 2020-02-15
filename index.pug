@@ -22,21 +22,30 @@ html(lang='de')
         .collapse.navbar-collapse.justify-content-between
           .navbar-text
             span.small.text-uppercase Kisa News 
+          .edition(hidden)
+            .navbar-text
+              span.small.text-uppercase
+                span#edition 
+                span  Edition
           .settings(hidden)
             .navbar-text
               select.custom-select.custom-select-sm#lang
                 option(value='de') de
-                option(value='en') en
                 option(value='fr') fr
+                option(value='en') en
                 option(value='it') it
-                option(value='es') es
+                option(value='ja') ja
             .navbar-text
               select.custom-select.custom-select-sm#country
+                //- G7
                 option(value='DE') DE
-                option(value='UK') UK
                 option(value='FR') FR
+                option(value='GB') GB
                 option(value='IT') IT
-                option(value='ES') ES
+                option(value='US') US
+                option(value='JP') JP
+                option(value='CA') CA
+
 
     .container.my-3
       h3.international International

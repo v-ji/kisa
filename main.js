@@ -1,3 +1,7 @@
+function flag (country) {
+  return country.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397))
+}
+
 const kisaSettings = {
   lang: navigator.language.slice(0, 2).toLowerCase() || 'de',
   country: navigator.language.slice(3).toUpperCase() || 'DE',
@@ -27,6 +31,8 @@ const blacklist = ['BILD', 'B.Z.', 'STERN', 'merkur']
 document.querySelector('#blacklist').textContent = blacklist.slice(0, -1).join(', ') + ' und ' + blacklist.slice(-1)
 
 function render () {
+  document.querySelector('#edition').textContent = flag(kisaSettings.country)
+
   const feedURLs = {
     international: 'https://news.google.com/news/rss/headlines/section/topic/WORLD?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country,
     national: 'https://news.google.com/news/rss/headlines/section/topic/NATION?hl=' + kisaSettings.lang + '&gl=' + kisaSettings.country,
