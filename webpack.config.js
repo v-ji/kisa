@@ -17,9 +17,11 @@ module.exports = {
       favicons: {
         appName: 'Kisa News',
         developerURL: null, // prevent retrieving from the nearest package.json
+        start_url: '/',
         background: '#fff',
         theme_color: '#000',
         lang: 'en_GB',
+        display: 'browser',
         icons: {
           firefox: false,
           coast: false,
