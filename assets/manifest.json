@@ -4,9 +4,9 @@
   "description": "",
   "dir": "auto",
   "lang": "en_GB",
-  "display": "standalone",
+  "display": "browser",
   "orientation": "any",
-  "start_url": "/?homescreen=1",
+  "start_url": "/",
   "background_color": "#fff",
   "theme_color": "#000",
   "icons": [
