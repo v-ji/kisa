@@ -1,3 +1,10 @@
+import './styles.css'
+import RSS from 'vanilla-rss'
+import { headliner } from './headliner.js'
+
+window.RSS = RSS
+window.headliner = headliner
+
 function flag (country) {
   return country.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397))
 }
@@ -40,9 +47,9 @@ function render () {
   }
 
   const tokenFunctions = {
-    lead: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).lead,
-    headline: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).headline,
-    source: (entry, tokens) => window.headliner(entry.title, kisaSettings.lang).source,
+    lead: (entry, tokens) => headliner(entry.title, kisaSettings.lang).lead,
+    headline: (entry, tokens) => headliner(entry.title, kisaSettings.lang).headline,
+    source: (entry, tokens) => headliner(entry.title, kisaSettings.lang).source,
     escapedTitle: (entry, tokens) => entry.title.replace(/"/g, '&quot;').replace(/'/g, '&#039;')
   }
 
@@ -55,7 +62,7 @@ function render () {
       editionHeaderElement.title = kisaSettings.city
     }
 
-    new window.RSS(
+    new RSS(
       editionContentElement,
       url,
       {

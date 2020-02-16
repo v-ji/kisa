@@ -1,4 +1,4 @@
-function headliner (string, langCode) {
+export function headliner (string, langCode) {
   const components = {
     interim: {},
     lead: '',
@@ -55,6 +55,6 @@ function headliner (string, langCode) {
   return components
 }
 
-function testHeadliner () {
+export function testHeadliner () {
   document.querySelectorAll('.headline').forEach(x => console.debug(headliner(x.parentNode.title)))
 }
