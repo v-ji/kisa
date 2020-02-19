@@ -2,7 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
-module.exports = {
+const config = {
   entry: './src/main.js',
   output: {
     filename: 'bundle.js',
@@ -50,4 +50,14 @@ module.exports = {
   devServer: {
     contentBase: './dist'
   }
+}
+
+module.exports = (env, argv) => {
+  if (argv.mode === 'production') {
+    config.output.publicPath = '/kisa'
+  } else {
+    config.output.publicPath = '/'
+  }
+
+  return config
 }
