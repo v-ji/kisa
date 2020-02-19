@@ -16,35 +16,39 @@ html(lang='de')
     //- script(src='rss.global.min.js')
 
   body
-    nav.navbar.navbar-expand
+    nav.navbar.navbar-expand.title-nav
       .container
         h1.navbar-brand.mb-0 기사
         .collapse.navbar-collapse.justify-content-between
           .navbar-text
             span.small.text-uppercase Kisa News 
-          .edition(hidden)
+          .edition
             .navbar-text
               span.small.text-uppercase
                 span#edition 
                 span  Edition
-          .settings(hidden)
-            .navbar-text
-              select.custom-select.custom-select-sm#lang
-                option(value='de') de
-                option(value='fr') fr
-                option(value='en') en
-                option(value='it') it
-                option(value='ja') ja
-            .navbar-text
-              select.custom-select.custom-select-sm#country
-                //- G7
-                option(value='DE') DE
-                option(value='FR') FR
-                option(value='GB') GB
-                option(value='IT') IT
-                option(value='US') US
-                option(value='JP') JP
-                option(value='CA') CA
+    nav.navbar.navbar-light.navbar-expand.settings-nav
+      .container
+        .collapse.navbar-collapse.justify-content-around
+          .navbar-text
+            span.lead.small.text-uppercase.font-weight-light.futura Sprache
+            select.custom-select.custom-select-sm#lang
+              option(value='de') de
+              option(value='fr') fr
+              option(value='en') en
+              option(value='it') it
+              option(value='ja') ja
+          .navbar-text
+            span.lead.small.text-uppercase.font-weight-light.futura Land
+            select.custom-select.custom-select-sm#country
+              //- G7
+              option(value='DE') DE
+              option(value='FR') FR
+              option(value='GB') GB
+              option(value='IT') IT
+              option(value='US') US
+              option(value='JP') JP
+              option(value='CA') CA
 
 
     .container.my-3
@@ -53,6 +57,8 @@ html(lang='de')
       h3.national National
       .national
       h3.local Lokal
+        span
+          a.btn.btn-link.btn-sm#loc 📍
       .local
     
       template#layout-template

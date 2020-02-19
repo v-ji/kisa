@@ -1,7 +1,11 @@
-.navbar {
+.title-nav {
   color: white;
   background: black;
 }
+.settings-nav {
+  background: white;
+  border-bottom: 1px solid black;
+} 
 
 .lead-line {
   text-transform: uppercase;

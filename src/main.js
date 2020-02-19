@@ -2,6 +2,28 @@ import './styles.css'
 import RSS from 'vanilla-rss'
 import { headliner } from './headliner.js'
 
+import * as Nominatim from 'nominatim-browser'
+
+function getGeoCity () {
+  navigator.geolocation.getCurrentPosition(location => {
+    Nominatim.reverseGeocode({
+      lat: location.coords.latitude,
+      lon: location.coords.longitude,
+      addressDetails: true
+    }).then(x => x.address.town)
+      .then(x => {
+        kisaSettings.city = x
+        render(['local'])
+      })
+  })
+}
+window.Nominatim = Nominatim
+window.getGeoCity = getGeoCity
+document.querySelector('#loc').addEventListener('click', function (event) {
+  event.preventDefault()
+  getGeoCity()
+})
+
 window.RSS = RSS
 window.headliner = headliner
 
@@ -37,7 +59,7 @@ const blacklist = ['BILD', 'B.Z.', 'STERN', 'merkur']
 
 document.querySelector('#blacklist').textContent = blacklist.slice(0, -1).join(', ') + ' und ' + blacklist.slice(-1)
 
-function render () {
+function render (editions = ['international', 'national', 'local']) {
   document.querySelector('#edition').textContent = flag(kisaSettings.country)
 
   const feedURLs = {
@@ -53,7 +75,8 @@ function render () {
     escapedTitle: (entry, tokens) => entry.title.replace(/"/g, '&quot;').replace(/'/g, '&#039;')
   }
 
-  for (const [edition, url] of Object.entries(feedURLs)) {
+  for (const edition of editions) {
+    const url = feedURLs[edition]
     const editionHeaderElement = document.querySelector('h3.' + edition)
     const editionContentElement = document.querySelector('div.' + edition)
     editionContentElement.innerHTML = ''
