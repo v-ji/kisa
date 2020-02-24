@@ -3,6 +3,9 @@
 # abort on errors
 set -e
 
+# test
+npm test
+
 # build
 npm run build
 

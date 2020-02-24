@@ -5,7 +5,7 @@
   "main": "src/main.js",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx standard && npx mocha --require esm",
     "dev": "npx webpack-dev-server --mode development --open",
     "build": "npx webpack --mode production"
   },
@@ -21,11 +21,14 @@
   "homepage": "https://github.com/vaviary/kisa#readme",
   "devDependencies": {
     "css-loader": "^3.4.2",
+    "esm": "^3.2.25",
     "favicons-webpack-plugin": "^2.1.0",
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
+    "mocha": "^7.0.1",
     "pug": "^2.0.4",
     "pug-loader": "^2.4.0",
+    "standard": "^14.3.1",
     "style-loader": "^1.1.3",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
@@ -33,5 +36,12 @@
   },
   "dependencies": {
     "vanilla-rss": "^1.4.0"
+  },
+  "standard": {
+    "env": [
+      "node",
+      "browser",
+      "mocha"
+    ]
   }
 }
