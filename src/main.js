@@ -29,6 +29,9 @@ window.fetch('https://get.geojs.io/v1/ip/geo.json')
     kisaSettings.geo = data
     render()
   })
+  .catch(() => {
+    render()
+  })
 
 document.querySelector('#lang').addEventListener('change', render)
 document.querySelector('#country').addEventListener('change', render)
