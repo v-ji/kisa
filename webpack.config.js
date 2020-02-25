@@ -18,8 +18,8 @@ const config = {
         appName: 'Kisa News',
         developerURL: null, // prevent retrieving from the nearest package.json
         start_url: '/kisa',
-        background: '#fff',
-        theme_color: '#000',
+        background: '#000',
+        theme_color: '#fff',
         lang: 'en_GB',
         display: 'browser',
         icons: {
