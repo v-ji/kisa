@@ -17,7 +17,7 @@ const config = {
       favicons: {
         appName: 'Kisa News',
         developerURL: null, // prevent retrieving from the nearest package.json
-        start_url: '/',
+        start_url: '/kisa',
         background: '#fff',
         theme_color: '#000',
         lang: 'en_GB',
@@ -46,7 +46,6 @@ const config = {
       }
     ]
   },
-  devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist'
   }
