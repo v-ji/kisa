@@ -6,9 +6,9 @@
   "lang": "en_GB",
   "display": "browser",
   "orientation": "any",
-  "start_url": "/",
-  "background_color": "#fff",
-  "theme_color": "#000",
+  "start_url": "/kisa",
+  "background_color": "#000",
+  "theme_color": "#fff",
   "icons": [
     {
       "src": "/kisa/assets/android-chrome-36x36.png",
